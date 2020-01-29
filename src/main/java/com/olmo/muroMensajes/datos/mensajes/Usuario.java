@@ -1,17 +1,24 @@
 package com.olmo.muroMensajes.datos.mensajes;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
+
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.olmo.muroMensajes.Roles.Rol;
+
 @Entity
+@Table(name="usuarios")
 public class Usuario implements UserDetails{
 	
 	
@@ -34,8 +41,19 @@ public class Usuario implements UserDetails{
 	
 	@Column 
 	private int telefono;
+	
+	@OneToMany(mappedBy="usuario")
+	List<Rol> roles = new ArrayList<Rol>();
 
 	
+
+	public List<Rol> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Rol> roles) {
+		this.roles = roles;
+	}
 
 	public String getZapatilla() {
 		return zapatilla;

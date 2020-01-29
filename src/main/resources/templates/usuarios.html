@@ -58,6 +58,7 @@
 									<th>Apellidos</th>
 									<th>E-mail</th>
 									<th>Teléfono</th>
+									<th>Rol</th>
 								</tr>
 								<tr th:each="usuario : ${usuarios}">
 									
@@ -67,6 +68,8 @@
 									<td th:text="${usuario.apellidos}"></td>
 									<td th:text="${usuario.email}"></td>
 									<td th:text="${usuario.telefono}"></td>
+									<td th:text="${usuario.telefono}"></td>
+									<td th:text="${usuario.roles}"></td>
 									 <td><a type="button" class="btn btn-danger btn-sm" th:href="@{/usuarios/borrar/{id}(id=${usuario.zapatilla})}">Eliminar</a></td>
 								</tr>
 							</table>
