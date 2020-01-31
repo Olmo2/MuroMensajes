@@ -68,7 +68,9 @@
 									<td th:text="${usuario.apellidos}"></td>
 									<td th:text="${usuario.email}"></td>
 									<td th:text="${usuario.telefono}"></td>
-									<td th:text="${usuario.roles}"></td>
+									<td th:each="rol: ${roles}">
+										<p th:text="${rol.nombre_rol}"></p>
+									</td>
 									<td><a type="button" class="btn btn-danger btn-sm"
 										th:href="@{/usuarios/borrar/{id}(id=${usuario.zapatilla})}">Eliminar</a></td>
 								</tr>
@@ -123,9 +125,12 @@
 											Telefono: <input type="text" th:field="*{telefono}" />
 										</p>
 										
+										<p>
+											Telefono: <input type="text" th:field="*{telefono}" />
+										</p>
 										
 										<p>
-											Rol: <input type="text" th:field="*{rol}" />
+											Rol: <input type="text" th:field="${rol}" />
 										</p>
 										
 

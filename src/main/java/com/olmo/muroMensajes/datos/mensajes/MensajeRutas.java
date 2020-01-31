@@ -64,8 +64,7 @@ public class MensajeRutas {
 		Mensaje mensaje = mensajeDAO.findById(id).get();
 		mensajeDAO.delete(mensaje);
 
-		// versión 2
-		mensajeDAO.deleteById(id);
+	
 
 		return "redirect:/mensajes";
 	}
@@ -92,13 +91,13 @@ public class MensajeRutas {
 	}
 
 	@PostMapping("/usuarios/anadir")
-	public String usuariosAñadir(@ModelAttribute Usuario usuario, String rol) {
+	public String usuariosAñadir(@ModelAttribute Usuario usuario) {
 
 		/* IOC del encoder */
 
-		Rol rol1 = rolDAO.findById(rol).get();
+		Rol rol1 = rolDAO.findById(usuario.getRol()).get();
 
-		
+		System.out.println(usuario);
 		
 		usuario.addRol(rol1);
 		rol1.addUsuario(usuario);

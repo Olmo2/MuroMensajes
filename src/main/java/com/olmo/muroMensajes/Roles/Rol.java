@@ -65,7 +65,7 @@ public class Rol {
 
 	@Override
 	public String toString() {
-		return "Rol [nombre_rol=" + nombre_rol + ", usuarios="  + "]";
+		return "Rol [nombre_rol=" + nombre_rol + "]";
 	}
 
 
