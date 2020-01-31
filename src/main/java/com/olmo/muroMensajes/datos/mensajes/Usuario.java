@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.Id;
-
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,7 +24,7 @@ public class Usuario implements UserDetails{
 	
 	
 	@Id
-	@Column(name="usuraio")
+	@Column(name="usuario")
 	private String zapatilla;
 	
 	
@@ -42,10 +43,26 @@ public class Usuario implements UserDetails{
 	@Column 
 	private int telefono;
 	
-	@OneToMany(mappedBy="usuario")
-	List<Rol> roles = new ArrayList<Rol>();
-
 	
+	
+	@ManyToMany(mappedBy="usuarios", cascade=CascadeType.MERGE)
+	List<Rol> roles = new ArrayList<Rol>();
+	
+	public void addRol(Rol rol) {
+
+		if (!roles.contains(rol)) {
+
+			roles.add(rol);
+
+			// decirle al coche que añada este concesionario
+			List<Usuario> usuarios = rol.getUsuarios();
+			if (!usuarios.contains(this)) {
+
+				usuarios.add(this);
+			}
+		}
+	}
+
 
 	public List<Rol> getRoles() {
 		return roles;
@@ -63,13 +80,17 @@ public class Usuario implements UserDetails{
 		this.zapatilla = zapatilla;
 	}
 
+	
+
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String pass) {
-		this.password = pass;
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
 
 	public String getNombre() {
 		return nombre;
@@ -139,6 +160,13 @@ public class Usuario implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Usuario [zapatilla=" + zapatilla + ", password=" + password + ", nombre=" + nombre + ", apellidos="
+				+ apellidos + ", email=" + email + ", telefono=" + telefono + ", roles=" + roles + "]";
 	}
 
 	

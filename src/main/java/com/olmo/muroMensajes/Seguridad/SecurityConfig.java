@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.olmo.muroMensajes.Servicios.Autenticacion;
+import com.olmo.muroMensajes.datos.mensajes.Encoder;
 
 
 @Configuration
@@ -19,11 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private Autenticacion autenticacion;
 	
+	@Autowired
+	private Encoder encoder;
+	
 	 @Override
 	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	        
 	    	DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-	        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+	        provider.setPasswordEncoder(encoder.bcryptPasswordEncoder());
 	        provider.setUserDetailsService(autenticacion);
 	    	
 	    	auth.authenticationProvider(provider);

@@ -14,96 +14,97 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.olmo.muroMensajes.Roles.Rol;
+import com.olmo.muroMensajes.Roles.RolDAO;
+
 @Controller
 public class MensajeRutas {
-	
+
 	@Autowired
 	private MensajeDAO mensajeDAO;
-	
+
 	@Autowired
 	private UsuarioDAO usuarioDAO;
-	
+
+	@Autowired
+	private RolDAO rolDAO;
+
 	@Autowired
 	private Encoder encoder;
-	
-	
-	
-	/*Cuando alguien abre esta ruta, la vista abre 
-	 *el html "mensajes" y añade la lista de mensajes*/
-	
+
+	/*
+	 * Cuando alguien abre esta ruta, la vista abre el html "mensajes" y añade la
+	 * lista de mensajes
+	 */
+
 	@GetMapping("/mensajes")
 	public ModelAndView todosLosMensajes() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mensajes");
 		mav.addObject("mensaje", new Mensaje());
-		
-		List<Mensaje> listaMensajes = (List<Mensaje>)mensajeDAO.findAll();
-		mav.addObject("mensajes",listaMensajes);
-		 
-		
-		
+
+		List<Mensaje> listaMensajes = (List<Mensaje>) mensajeDAO.findAll();
+		mav.addObject("mensajes", listaMensajes);
+
 		return mav;
 	}
-	
-	
+
 	@PostMapping("/mensajes/anadir")
 	public String mensajesAnadir(@ModelAttribute Mensaje mensaje) {
-		
+
 		mensajeDAO.save(mensaje);
-		
+
 		return "redirect:/mensajes";
 	}
-	
-	
-	
-	
-	
-	
+
 	@GetMapping("/mensajes/borrar/{id}")
 	public String mensajesBorrar(@PathVariable Long id) {
-		
+
 		// versión 1
 		Mensaje mensaje = mensajeDAO.findById(id).get();
 		mensajeDAO.delete(mensaje);
-		
+
 		// versión 2
 		mensajeDAO.deleteById(id);
-	
 
-		
 		return "redirect:/mensajes";
 	}
-	
+
 	@GetMapping("/usuarios/borrar/{id}")
 	public String usuariosBorrar(@PathVariable String id) {
-		
+
 		usuarioDAO.deleteById(id);
-		
+
 		return "redirect:/usuarios";
 	}
-	
-	
+
 	@GetMapping("/usuarios")
 	public ModelAndView todosLosUsuario() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("usuarios");
 		mav.addObject("usuario", new Usuario());
-		
-		List<Usuario> listaUsuarios = (List<Usuario>)usuarioDAO.findAll();
-		mav.addObject("usuarios",listaUsuarios);
-		
+		mav.addObject("rol", new Rol());
+
+		List<Usuario> listaUsuarios = (List<Usuario>) usuarioDAO.findAll();
+		mav.addObject("usuarios", listaUsuarios);
+
 		return mav;
 	}
-	
+
 	@PostMapping("/usuarios/anadir")
-	public String usuariosAñadir(@ModelAttribute Usuario usuario) {
+	public String usuariosAñadir(@ModelAttribute Usuario usuario, String rol) {
+
+		/* IOC del encoder */
+
+		Rol rol1 = rolDAO.findById(rol).get();
+
 		
-       /*IOC del encoder*/
 		
-		usuario.setPassword(encoder.bcryptPasswordEncoder().encode(usuario.getPassword()));
+		usuario.addRol(rol1);
+		rol1.addUsuario(usuario);
 		
 		usuarioDAO.save(usuario);
-		
+
 		return "redirect:/usuarios";
 	}
 

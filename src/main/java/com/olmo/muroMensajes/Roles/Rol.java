@@ -27,19 +27,32 @@ public class Rol {
 	@Id
 	private String nombre_rol;
 	
-	@Column
-	private String desc;
 	
-	@ManyToOne
-	@JoinColumn
-    private Usuario usuario;
 	
-	public Usuario getUsuario() {
-		return usuario;
+	@ManyToMany(cascade=CascadeType.MERGE)
+	List<Usuario> usuarios = new ArrayList<Usuario>();
+	
+	public void addUsuario(Usuario usuario) {
+
+		if (!usuarios.contains(usuario)) {
+
+			usuarios.add(usuario);
+
+			// decirle al coche que añada este concesionario
+			List<Rol> roles = usuario.getRoles();
+			if (!roles.contains(this)) {
+
+				roles.add(this);
+			}
+		}
+	}
+	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	public String getNombre_rol() {
@@ -50,14 +63,12 @@ public class Rol {
 		this.nombre_rol = nombre_rol;
 	}
 
-	public String getDesc() {
-		return desc;
+	@Override
+	public String toString() {
+		return "Rol [nombre_rol=" + nombre_rol + ", usuarios="  + "]";
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-	
+
 	
 	
 	
