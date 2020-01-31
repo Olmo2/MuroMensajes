@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface UsuarioDAO extends CrudRepository<Usuario, String>{
+public interface UsuarioDAO extends CrudRepository< Usuario, String>{
 
 }

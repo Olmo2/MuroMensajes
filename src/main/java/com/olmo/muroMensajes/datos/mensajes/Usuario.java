@@ -60,7 +60,7 @@ public class Usuario implements UserDetails{
 	}
 
 
-	@ManyToMany(mappedBy="usuarios", cascade=CascadeType.MERGE)
+	@ManyToMany( cascade=CascadeType.MERGE)
 	List<Rol> roles = new ArrayList<Rol>();
 	
 	public void addRol(Rol rol) {
@@ -181,7 +181,7 @@ public class Usuario implements UserDetails{
 	@Override
 	public String toString() {
 		return "Usuario [zapatilla=" + zapatilla + ", password=" + password + ", nombre=" + nombre + ", apellidos="
-				+ apellidos + ", email=" + email + ", telefono=" + telefono + ", rol=" + rol + ", roles=" + roles + "]";
+				+ apellidos + ", email=" + email + ", telefono=" + telefono + ", rol=" + rol + ", roles="  + "]";
 	}
 
 	

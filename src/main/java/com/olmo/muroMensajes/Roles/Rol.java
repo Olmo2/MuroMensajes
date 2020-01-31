@@ -29,7 +29,7 @@ public class Rol {
 	
 	
 	
-	@ManyToMany(cascade=CascadeType.MERGE)
+	@ManyToMany(mappedBy="roles",cascade=CascadeType.MERGE)
 	List<Usuario> usuarios = new ArrayList<Usuario>();
 	
 	public void addUsuario(Usuario usuario) {
@@ -65,7 +65,7 @@ public class Rol {
 
 	@Override
 	public String toString() {
-		return "Rol [nombre_rol=" + nombre_rol + "]";
+		return "Rol [nombre_rol=" + nombre_rol + ", usuarios=" + usuarios + "]";
 	}
 
 

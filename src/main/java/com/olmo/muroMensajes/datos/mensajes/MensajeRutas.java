@@ -71,8 +71,14 @@ public class MensajeRutas {
 
 	@GetMapping("/usuarios/borrar/{id}")
 	public String usuariosBorrar(@PathVariable String id) {
-
+		
+//		usuarioDAO.findById(id).get().getRoles().clear();
+		System.out.println(usuarioDAO.findById(id).get());
+		System.out.println(rolDAO.findById("admin").get());
+//		rolDAO.deleteById("admin");
 		usuarioDAO.deleteById(id);
+	
+		
 
 		return "redirect:/usuarios";
 	}
@@ -103,6 +109,8 @@ public class MensajeRutas {
 		rol1.addUsuario(usuario);
 		
 		usuarioDAO.save(usuario);
+		rolDAO.save(rol1);
+		
 
 		return "redirect:/usuarios";
 	}
